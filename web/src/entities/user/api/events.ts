@@ -1,11 +1,17 @@
+import { User } from '../model/types';
+
 export enum UserEvents {
-    SEND_USER_DATA = 'SEND_USER_DATA',
+    CHANGE = 'CHANGE_USER',
+    LOGIN = 'LOGIN',
+    LOGOUT = 'LOGOUT',
 }
 
 export interface OutcomingUserEvents {
-    [UserEvents.SEND_USER_DATA]: any;
+    [UserEvents.CHANGE]: User;
+    [UserEvents.LOGIN]: Partial<User>;
+    [UserEvents.LOGOUT]: string;
 }
 
 // export interface IncomingUserEvents {
-//     [ChatEvents.GET_MESSAGES]: MessageType[];
+//     [UserEvents.AUTH]: User;
 // }

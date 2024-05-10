@@ -5,7 +5,7 @@ import { OutcomingUserEvents } from 'entities/user/api/events';
 type EmitSocketCallback<D = any> = (response: D) => void;
 
 type EmitEvents<D, R = any> = {
-    [key in keyof D]: (arg: D[keyof D], callback?: EmitSocketCallback<R>) => void;
+    [key in keyof D]: (arg: D[key], callback?: EmitSocketCallback<R>) => void;
 };
 type ListensEvent<D> = {
     [key in keyof D]: (arg: D[keyof D]) => void;

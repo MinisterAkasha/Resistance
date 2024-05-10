@@ -1,5 +1,9 @@
 import { rootApi, socketEmitAsPromise, socketListenAsPromise } from 'shared/api';
 import { getSocket } from 'shared/socket';
+import { USER_ID_LC_KEY, USER_NICKANME_LC_KEY } from 'shared/consts/user';
+import { useEffect } from 'react';
+
+import { User } from '../model/types';
 
 import { UserEvents } from './events';
 
@@ -29,11 +33,29 @@ export const eventUserApi = rootApi.injectEndpoints({
         //         socket.removeListener(ChatEvents.GET_MESSAGES, listener);
         //     },
         // }),
-        // TODO типизировать
-        sendUserData: build.mutation<void, any>({
-            queryFn: async (userData) => socketEmitAsPromise(UserEvents.SEND_USER_DATA, userData),
+        changeUserData: build.mutation<void, User>({
+            queryFn: async (userData) => {
+                return socketEmitAsPromise(UserEvents.CHANGE, userData);
+            },
+        }),
+        auth: build.query<boolean, void>({
+            queryFn: async () => {
+                const socket = getSocket();
+
+                const userNickname = localStorage.getItem(USER_NICKANME_LC_KEY) ?? undefined;
+                const userId = localStorage.getItem(USER_ID_LC_KEY) ?? undefined;
+
+                return new Promise((resolve) => {
+                    socket.on('connect', () => {
+                        socket.emit(UserEvents.LOGIN, { name: userNickname, id: userId }, (id) => {
+                            localStorage.setItem(USER_ID_LC_KEY, id);
+                            resolve({ data: true });
+                        });
+                    });
+                });
+            },
         }),
     }),
 });
 
-export const { useSendUserDataMutation } = eventUserApi;
+export const { useChangeUserDataMutation, useAuthQuery } = eventUserApi;

@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Button } from '@chakra-ui/react';
-import { RoomEvent } from 'shared/api/events/room';
 import { getSocket } from 'shared/socket';
-import { Link, redirect, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Routes } from 'shared/routes';
+import { RoomEvent } from 'entities/room/api/events';
 
 export const CreateRoomButton = () => {
     const [roomID, setRoomID] = useState<number>();
