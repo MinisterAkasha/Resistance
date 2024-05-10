@@ -18,11 +18,19 @@ export const userSlice = createSlice({
         initUser(state, action: PayloadAction<User>) {
             state.user = action.payload;
         },
+        changeUser(state, action: PayloadAction<OmitID<User>>) {
+            if (state?.user) {
+                state.user = {
+                    ...state.user,
+                    ...action.payload,
+                };
+            }
+        },
     },
     selectors: {
         getUser: (state) => state.user,
     },
 });
 
-export const { initUser } = userSlice.actions;
+export const { initUser, changeUser } = userSlice.actions;
 export const { getUser } = userSlice.selectors;

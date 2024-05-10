@@ -7,7 +7,7 @@ export enum UserEvents {
 }
 
 export interface OutcomingUserEvents {
-    [UserEvents.CHANGE]: User;
+    [UserEvents.CHANGE]: OmitID<User>;
     [UserEvents.LOGIN]: Partial<User>;
     [UserEvents.LOGOUT]: string;
 }

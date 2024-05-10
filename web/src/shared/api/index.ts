@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { getSocket } from 'shared/socket';
+import { ChatEvents } from 'entities/chat/api/events';
 
 import { URL } from '../socket';
 
@@ -39,6 +40,8 @@ export const socketListenAsPromise = async <
     eventName: N,
 ): Promise<Record<'data', Data>> => {
     const socket = getSocket();
+
+    socket.on(ChatEvents.GET_MESSAGES, (data) => {});
 
     return new Promise((resolve) => {
         const listener = (data: Data) => {
