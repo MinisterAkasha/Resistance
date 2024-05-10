@@ -1,8 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { getSocket } from 'shared/socket';
 
-import { ClientToServerEvents, ClientToServerEventsMap, ServerToClientEvents, ServerToClientEventsMap } from './types';
-
 const URL = process.env.NODE_ENV === 'production' ? 'http://localhost:8080' : 'http://localhost:8080';
 
 const baseQuery = fetchBaseQuery({

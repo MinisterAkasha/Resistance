@@ -1,7 +1,7 @@
 import { rootApi, socketEmitAsPromise, socketListenAsPromise } from 'shared/api';
-import { ChatEvents, MessageType } from 'shared/api/events/chat';
-import { UserEvents } from 'shared/api/events/user';
 import { getSocket } from 'shared/socket';
+
+import { UserEvents } from './events';
 
 export const eventUserApi = rootApi.injectEndpoints({
     overrideExisting: true,
@@ -30,7 +30,7 @@ export const eventUserApi = rootApi.injectEndpoints({
         //     },
         // }),
         // TODO типизировать
-        sendUserData: build.mutation<void, MessageType>({
+        sendUserData: build.mutation<void, any>({
             queryFn: async (userData) => socketEmitAsPromise(UserEvents.SEND_USER_DATA, userData),
         }),
     }),

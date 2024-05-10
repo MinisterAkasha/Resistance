@@ -1,12 +1,19 @@
 import { rootApi, socketEmitAsPromise, socketListenAsPromise } from 'shared/api';
-import { ChatEvents, MessageType } from 'shared/api/events/chat';
 import { getSocket } from 'shared/socket';
+
+import { MessageType } from '../model/types';
+
+import { ChatEvents } from './events';
 
 export const eventChatApi = rootApi.injectEndpoints({
     overrideExisting: true,
     endpoints: (build) => ({
         getMessages: build.query<MessageType[], void>({
-            queryFn: async () => socketListenAsPromise(ChatEvents.GET_MESSAGES),
+            queryFn: async (...args) => {
+                console.log('args', args, args[1].getState());
+
+                return socketListenAsPromise(ChatEvents.GET_MESSAGES);
+            },
             async onCacheEntryAdded(arg, { updateCachedData, cacheDataLoaded, cacheEntryRemoved }) {
                 const socket = getSocket();
 

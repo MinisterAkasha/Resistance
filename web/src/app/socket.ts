@@ -1,6 +1,6 @@
-import { IncomingChatEvents, OutcomingChatEvents } from './events/chat';
-import { IncomingRoomEvents, OutcomingRoomEvents } from './events/room';
-import { OutcomingUserEvents } from './events/user';
+import { IncomingChatEvents, OutcomingChatEvents } from 'entities/chat/api/events';
+import { IncomingRoomEvents, OutcomingRoomEvents } from 'entities/room/api/events';
+import { OutcomingUserEvents } from 'entities/user/api/events';
 
 type EmitSocketCallback<D = any> = (response: D) => void;
 

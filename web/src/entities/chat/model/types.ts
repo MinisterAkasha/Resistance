@@ -1,6 +1,6 @@
 import { User } from 'entities/user/model/types';
 
-export interface MessageType1 {
+export interface MessageType {
     from: User;
     text: string;
     id: string;

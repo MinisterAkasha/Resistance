@@ -1,6 +1,7 @@
 import React from 'react';
 import { Box } from '@chakra-ui/react';
-import { MessageType } from 'shared/api/events/chat';
+
+import { MessageType } from '../model/types';
 
 export const Message = ({ text, from }: MessageType) => {
     return (
