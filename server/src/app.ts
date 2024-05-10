@@ -5,7 +5,7 @@ import { Server, Socket } from 'socket.io';
 import { DefaultEventsMap } from 'socket.io/dist/typed-events';
 import { guid } from './utils';
 
-const PORT = process.env.port ?? 8080;
+const PORT = process.env.port ?? 8081;
 
 const app = express();
 app.use(cors());
@@ -17,11 +17,8 @@ const io = new Server(server, {
     },
 });
 
-const a = () => {};
-
 let users = [];
-const messages = [{ text: 123, from: 'ilya', id: guid() }];
-
+const messages = [];
 const rooms = [];
 
 // app.get('/GET_MESSAGES', (req, res) => {
@@ -59,22 +56,43 @@ const roomController = (socket: SocketType) => {
     });
 };
 
+interface User {
+    name: string;
+    id: string | undefined;
+    avatar?: string;
+}
+
+const userController = (socket: SocketType) => {
+    socket.on('CHANGE_USER', (userData: User, callback) => {
+        const userId = guid();
+        callback({ userId });
+
+        users.push({ userData, id: userId });
+    });
+
+    socket.on('LOGIN', (userData, callback) => {
+        const userId = socket.handshake.auth.uuid ?? guid();
+        socket.handshake.auth = userId;
+
+        callback(userId);
+
+        if (!users.find((user) => user.id === userId)) {
+            users.push({ ...userData, id: userId });
+        }
+    });
+
+    socket.on('disconnect', () => {
+        const userId = socket.handshake.auth;
+        users = users.filter((user) => user.id !== userId);
+    });
+};
+
 io.on('connection', (socket) => {
-    console.log('a user connected');
-
-    socket.on('LOGIN_USER', (userName: string) => {
-        users.push(userName);
-        console.log('LOGIN_USER: userName', userName);
-    });
-
-    socket.on('LOGOUT_USER', (userName: string) => {
-        console.log('LOGOUT_USER: userName', userName);
-
-        users = users.filter((user) => user !== userName);
-    });
+    // console.log('a user connected', socket.handshake.query);
 
     chatController(socket);
     roomController(socket);
+    userController(socket);
 });
 
 server.listen(PORT, () => {

@@ -5,6 +5,7 @@ import { RouterProvider } from 'app/providers/routes';
 import { Theme } from 'app/providers/theme';
 import { store } from 'app/store';
 import { getSocket } from 'shared/socket';
+import { Layout } from 'app/Layout';
 
 export const AppProvider = ({ children }: PropsWithChildren) => {
     // useEffect(() => {
@@ -28,7 +29,9 @@ export const AppProvider = ({ children }: PropsWithChildren) => {
         <Provider store={store}>
             <ChakraProvider>
                 <RouterProvider />
-                <Theme>{children}</Theme>
+                <Theme>
+                    <Layout>{children}</Layout>
+                </Theme>
             </ChakraProvider>
         </Provider>
     );

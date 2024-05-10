@@ -1,10 +1,13 @@
 import { io, Socket } from 'socket.io-client';
 
+import { USER_ID_LC_KEY } from './consts/user';
+
 // import { ClientToServerEvents, ServerToClientEvents } from './api/types';
 
 // "undefined" means the URL will be computed from the `window.location` object
 // const URL = process.env.NODE_ENV === 'production' ? undefined : 'http://localhost:4000';
-const URL = process.env.NODE_ENV === 'production' ? 'http://localhost:8080' : 'http://localhost:8080';
+const PORT = 8081;
+export const URL = process.env.NODE_ENV === 'production' ? `http://localhost:${PORT}` : `http://localhost:${PORT}`;
 
 const createSocketFactory = () => {
     let socket: Socket<ServerToClientEvents, ClientToServerEvents>;
@@ -14,6 +17,9 @@ const createSocketFactory = () => {
             socket = io(URL, {
                 transports: ['websocket', 'polling'],
                 withCredentials: true,
+                auth: (cb) => {
+                    cb({ uuid: localStorage.getItem(USER_ID_LC_KEY) });
+                },
             });
         }
 
