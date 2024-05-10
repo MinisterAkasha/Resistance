@@ -64,20 +64,33 @@ interface User {
 
 const userController = (socket: SocketType) => {
     socket.on('CHANGE_USER', (userData: User, callback) => {
-        const userId = guid();
-        callback({ userId });
+        callback();
 
-        users.push({ userData, id: userId });
+        users = users.map((user) => {
+            return user.id !== socket.handshake.auth
+                ? user
+                : {
+                      ...user,
+                      ...userData,
+                  };
+        });
+        console.log(users);
     });
+
+    const callback = (el, index, arr) => {};
+
+    [].map((el, index, arr) => {});
 
     socket.on('LOGIN', (userData, callback) => {
         const userId = socket.handshake.auth.uuid ?? guid();
         socket.handshake.auth = userId;
 
-        callback(userId);
+        const response = { ...userData, id: userId };
+
+        callback(response);
 
         if (!users.find((user) => user.id === userId)) {
-            users.push({ ...userData, id: userId });
+            users.push(response);
         }
     });
 

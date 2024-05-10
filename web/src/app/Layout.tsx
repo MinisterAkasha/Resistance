@@ -1,8 +1,8 @@
-import { useAuthQuery } from 'entities/user/api';
 import React, { PropsWithChildren } from 'react';
+import { useInitUser } from 'entities/user/lib/useInitUser';
 
 export const Layout = ({ children }: PropsWithChildren) => {
-    useAuthQuery();
+    useInitUser();
 
     return <>{children}</>;
 };

@@ -9,11 +9,7 @@ export const eventChatApi = rootApi.injectEndpoints({
     overrideExisting: true,
     endpoints: (build) => ({
         getMessages: build.query<MessageType[], void>({
-            queryFn: async (...args) => {
-                console.log('args', args, args[1].getState());
-
-                return socketListenAsPromise(ChatEvents.GET_MESSAGES);
-            },
+            queryFn: async () => socketListenAsPromise(ChatEvents.GET_MESSAGES),
             async onCacheEntryAdded(arg, { updateCachedData, cacheDataLoaded, cacheEntryRemoved }) {
                 const socket = getSocket();
 

@@ -24,7 +24,9 @@ export const CreateRoomButton = () => {
 
     return (
         <Link to={Routes.LOBBY} onClick={onClick}>
-            Create Room
+            <Button colorScheme="blue" variant="outline">
+                Create Room
+            </Button>
         </Link>
     );
 };
