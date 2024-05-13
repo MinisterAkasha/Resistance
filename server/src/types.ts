@@ -1,3 +1,6 @@
+import { DefaultEventsMap } from 'socket.io/dist/typed-events';
+import { Socket, Server } from 'socket.io';
+
 enum ChatEvents {
     SEND_MESSAGE = 'SEND_MESSAGE',
     GET_MESSAGES = 'GET_MESSAGES',
@@ -15,8 +18,11 @@ enum UserEvents {
     LOGOUT = 'LOGOUT',
 }
 
-export const events = {
+export const Events = {
     ChatEvents,
     RoomEvent,
     UserEvents,
 };
+
+export type SocketType = Socket<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>;
+export type ServerType = Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>;
